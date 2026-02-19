@@ -1,0 +1,31 @@
+- hosts: dev
+  become: yes
+  vars:
+    packages: 
+    - tree
+    - apache2
+    - git
+    - unzip
+    hello: restarted
+      
+  tasks:
+  - name: Install apache
+    ansible.builtin.apt:
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+
+  - name: Start service apache
+    ansible.builtin.service:
+      name: apache2
+      state: "{{ hello }}"
+      enabled: yes
+
+  - name: Create user
+    ansible.builtin.user:
+      name: "{{ item }}"
+    loop: 
+      - ann
+      - tim
+      - brad
+      - jenny
